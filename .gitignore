@@ -6,3 +6,4 @@ tmp
 .powrc
 coverage
 .coveralls.yml
+Gemfile.lock
