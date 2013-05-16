@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require modal-lock
 //= require paper
 //= require codemirror
 //= require codemirror/modes/javascript
@@ -22,3 +23,4 @@
 //= require codemirror/utils/javascript-hint
 //= require codemirror/utils/matchbrackets
 //= require_tree .
+//= stub setup

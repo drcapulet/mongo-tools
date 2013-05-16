@@ -1,29 +1,37 @@
 MongoTools::Application.routes.draw do
-  resources :explorer do
-    scope :module => "explorer" do
-      resources :collections, :except => [:new], :constraints => { :id => /.*/ } do
-        resources :documents
+  if Settings
+    resources :explorer do
+      scope :module => "explorer" do
+        resources :collections, :except => [:new], :constraints => { :id => /.*/ } do
+          resources :documents
+        end
       end
     end
-  end
 
-  get "/monitoring" => "monitoring#index"
-  get "/monitoring/opcounts" => "monitoring#op_counts"
+    get "/monitoring" => "monitoring#index"
+    get "/monitoring/opcounts" => "monitoring#op_counts"
 
-  get "/sharding" => "sharding#index"
+    get "/sharding" => "sharding#index"
 
-  resources :query_analyzer, :only => [:index]
-  root :to => redirect("/explorer")
-  
-  namespace :api do
-    namespace :v1 do
-      resource :server_status, :only => [:index, :show]
-      resources :databases, :only => [:index, :show] do
-        resource :sharding_stats, :only => [:index, :show]
+    resources :query_analyzer, :only => [:index]
+    root :to => redirect("/explorer")
+    
+    namespace :api do
+      namespace :v1 do
+        resource :server_status, :only => [:index, :show]
+        resources :databases, :only => [:index, :show] do
+          resource :sharding_stats, :only => [:index, :show]
+        end
       end
     end
-  end
+  else
+    get "/setup" => "setup#index"
+    post "/setup/hosts" => "setup#check_hosts"
+    post "/setup" => "setup#finish"
 
+    match '*path' => redirect("/setup")
+    root :to => redirect("/setup")
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

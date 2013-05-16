@@ -4,7 +4,7 @@ require 'mongo'
 
 include Mongo
 
-unless ENV.has_key?('TRAVIS') || Rails.env.test?
+unless !Settings || ENV.has_key?('TRAVIS') || Rails.env.test?
 	scheduler = Rufus::Scheduler.start_new
 
 	# A capped collection has a max size and, optionally, a max number of records.
